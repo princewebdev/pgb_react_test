@@ -12,12 +12,7 @@ const Header = () => {
   
   const location = useLocation();
 
-  // 1. Logic to hide Header on Login page
-  if (location.pathname === "/login") {
-    return null;
-  }
-
-  // 2. Scroll Shadow Effect
+  // Scroll Shadow Effect - MUST be before any conditional returns
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -25,6 +20,11 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Logic to hide Header on Login page - AFTER all hooks
+  if (location.pathname === "/login") {
+    return null;
+  }
 
   const navLinks = [
     { name: "Dashboard", path: "/" },

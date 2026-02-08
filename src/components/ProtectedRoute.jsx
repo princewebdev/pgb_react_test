@@ -4,10 +4,11 @@ import { Loader2 } from "lucide-react";
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null = checking, true = ok, false = fail
-  const token = localStorage.getItem("token"); // or sessionStorage
 
   useEffect(() => {
     const validateToken = async () => {
+      const token = localStorage.getItem("token"); // or sessionStorage
+      
       if (!token) {
         setIsAuthenticated(false);
         return;
@@ -15,7 +16,8 @@ const ProtectedRoute = ({ children }) => {
 
       try {
         // Send a request to a lightweight WP endpoint (e.g., users/me)
-        const response = await fetch("http://localhost/progressivebyte_terms/wp-json/wp/v2/users/me", {
+        const apiUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
+        const response = await fetch(`${apiUrl}/wp-json/wp/v2/users/me`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -38,7 +40,7 @@ const ProtectedRoute = ({ children }) => {
     };
 
     validateToken();
-  }, [token]);
+  }, []);
 
   // Show loader while checking
   if (isAuthenticated === null) {
