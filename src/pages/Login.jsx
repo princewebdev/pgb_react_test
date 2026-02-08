@@ -23,7 +23,8 @@ const Login = () => {
 
     if (token) {
       if (userRole && userRole.includes("administrator")) {
-        window.location.href = "http://api-terms.progressivebyte.com/";
+        const wpAdminUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
+        window.location.href = `${wpAdminUrl}/`;
       } else {
         navigate("/terms");
       }
@@ -37,8 +38,9 @@ const Login = () => {
     setError("");
 
     try {
+      const apiUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
       const response = await fetch(
-        "http://localhost/progressivebyte_terms/wp-json/jwt-auth/v1/token",
+        `${apiUrl}/wp-json/jwt-auth/v1/token`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -69,7 +71,8 @@ const Login = () => {
 
         // Redirect Logic
         if (data.user_role && data.user_role.includes("administrator")) {
-          window.location.href = "http://api-terms.progressivebyte.com/";
+          const wpAdminUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
+          window.location.href = `${wpAdminUrl}/`;
         } else {
           navigate("/");
         }

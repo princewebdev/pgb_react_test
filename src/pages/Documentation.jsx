@@ -23,9 +23,10 @@ const Documentation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const apiUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
         const [catRes, docRes] = await Promise.all([
-          fetch("http://localhost/progressivebyte_terms/wp-json/wp/v2/doc_category"),
-          fetch("http://localhost/progressivebyte_terms/wp-json/wp/v2/docs?per_page=100"),
+          fetch(`${apiUrl}/wp-json/wp/v2/doc_category`),
+          fetch(`${apiUrl}/wp-json/wp/v2/docs?per_page=100`),
         ]);
 
         const catData = await catRes.json();

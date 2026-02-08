@@ -18,7 +18,7 @@ const Home = () => {
         
         {/* Card 1: Leave Request (WP Admin) */}
         <a 
-          href="http://api-terms.progressivebyte.com/wp-admin/admin.php?page=pgb-leave-request" 
+          href={`${import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms"}/wp-admin/admin.php?page=pgb-leave-request`}
           className="group block h-full"
         >
           <Card className="h-full p-6 md:p-8 rounded-3xl border-2 border-gray-100 hover:border-blue-600 hover:shadow-xl hover:shadow-blue-600/10 transition-all cursor-pointer bg-white group-hover:-translate-y-1 flex flex-col">
