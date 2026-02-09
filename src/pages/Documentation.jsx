@@ -33,9 +33,9 @@ const Documentation = () => {
         const rawDocData = await docRes.json();
 
         // Sort categories by doc_category_order
-        const sortedCategories = catData.sort((a, b) => {
-          const orderA = parseInt(a.doc_category_order || 0);
-          const orderB = parseInt(b.doc_category_order || 0);
+        const sortedCategories = [...catData].sort((a, b) => {
+          const orderA = parseInt(a.doc_category_order) || 999;
+          const orderB = parseInt(b.doc_category_order) || 999;
           return orderA - orderB;
         });
 
@@ -67,7 +67,9 @@ const Documentation = () => {
           });
         });
 
-        setDocs(processedDocs);
+        // Sort docs by date in ascending order
+        const sortedDocs = [...processedDocs].sort((a, b) => new Date(a.modified) - new Date(b.modified));
+        setDocs(sortedDocs);
 
         // --- NAVIGATION STATE HANDLING ---
         if (location.state?.targetCatId && location.state?.targetDocId) {
@@ -81,7 +83,8 @@ const Documentation = () => {
           const firstCat = sortedCategories[0];
           setActiveCategoryId(firstCat.id);
           setExpandedCategories({ [firstCat.id]: true });
-          const firstDoc = processedDocs.find((d) =>
+          const sortedDocsForNav = [...sortedDocs].sort((a, b) => new Date(a.modified) - new Date(b.modified));
+          const firstDoc = sortedDocsForNav.find((d) =>
             d.doc_category.includes(firstCat.id)
           );
           if (firstDoc) setActiveDocId(firstDoc.id);
@@ -105,7 +108,9 @@ const Documentation = () => {
   };
 
   const docsByCategory = categories.reduce((acc, cat) => {
-    acc[cat.id] = docs.filter((doc) => doc.doc_category.includes(cat.id));
+    acc[cat.id] = [...docs]
+      .filter((doc) => doc.doc_category.includes(cat.id))
+      .sort((a, b) => new Date(a.modified) - new Date(b.modified));
     return acc;
   }, {});
 

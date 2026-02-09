@@ -31,13 +31,22 @@ const TermsLanding = () => {
         const catData = await catRes.json();
         const docData = await docRes.json();
 
-        setCategories(catData);
+        // Sort categories by doc_category_order
+        const sortedCategories = [...catData].sort((a, b) => {
+          const orderA = parseInt(a.doc_category_order) || 999;
+          const orderB = parseInt(b.doc_category_order) || 999;
+          return orderA - orderB;
+        });
+
+        setCategories(sortedCategories);
         
-        // Pre-process docs for Deep Search
-        const processedDocs = docData.map(doc => ({
+        // Pre-process docs for Deep Search and sort by modified date
+        const processedDocs = [...docData]
+          .map(doc => ({
             ...doc,
             searchableText: `${doc.title.rendered} ${doc.content.rendered}`.toLowerCase()
-        }));
+          }))
+          .sort((a, b) => new Date(a.modified) - new Date(b.modified));
         setDocs(processedDocs);
 
       } catch (error) {
@@ -193,13 +202,15 @@ const TermsLanding = () => {
             // 1. Check if Category Name matches
             const isCatNameMatch = cat.name.toLowerCase().includes(query);
 
-            // 2. Filter Docs inside this category
-            const relevantDocs = docs.filter(d => {
+            // 2. Filter Docs inside this category and sort by date
+            const relevantDocs = docs
+              .filter(d => {
                 const belongsToCat = d.doc_category.includes(cat.id);
                 if (!belongsToCat) return false;
                 if (!query) return true;
                 return d.searchableText.includes(query);
-            });
+              })
+              .sort((a, b) => new Date(a.modified) - new Date(b.modified));
 
             // 3. DECIDE: Should we show this Card?
             const shouldShowCard = isCatNameMatch || relevantDocs.length > 0;
