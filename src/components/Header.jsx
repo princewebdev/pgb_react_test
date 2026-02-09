@@ -3,7 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   Menu, 
   X, 
-  LifeBuoy
+  LifeBuoy,
+  ExternalLink
 } from "lucide-react";
 
 const Header = () => {
@@ -27,7 +28,7 @@ const Header = () => {
   }
 
   const navLinks = [
-    { name: "Dashboard", path: "/" },
+    { name: "Portal", path: "/" },
     { name: "Terms & Policies", path: "/terms" },
   ];
 
@@ -69,6 +70,13 @@ const Header = () => {
                     {link.name}
                 </Link>
                 ))}
+                <a
+                  href={`${import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms"}/wp-admin/admin.php?page=pgb-leave-request`}
+                  className="group flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-4 py-3 text-sm font-bold text-white cursor-pointer transition-all duration-300 hover:-translate-y-0.5 border hover:border-blue-500 hover:bg-white hover:text-blue-600 md:text-base"
+                >
+                  <span>Request A Leave</span>
+                  <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
             </nav>
 
 

@@ -72,7 +72,7 @@ const Login = () => {
         // Redirect Logic
         if (data.user_role && data.user_role.includes("administrator")) {
           const wpAdminUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
-          window.location.href = `${wpAdminUrl}/`;
+          window.location.href = `${wpAdminUrl+"/wp-admin"}/`;
         } else {
           navigate("/");
         }
@@ -148,21 +148,15 @@ const Login = () => {
             <Button 
               type="submit" 
               disabled={isLoading}
-              className="w-full py-7 bg-[#10b981] hover:bg-[#0da06f] text-[#0a0a0a] font-black text-lg rounded-xl shadow-lg shadow-[#10b981]/20 transition-all"
+              className="w-full py-7 bg-[#10b981] text-white font-black text-lg rounded-xl shadow-lg shadow-[#10b981]/20 transition-all cursor-pointer hover:-translate-y-0.5 border border-[#10b981] hover:border-[#10b981] hover:bg-white hover:text-[#10b981]"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin text-[#0a0a0a]" /> VERIFYING...
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin text-[#10b981]" /> VERIFYING...
                 </>
               ) : "LOGIN"}
             </Button>
             
-            <p className="text-sm font-bold text-gray-400 text-center">
-              By logging in, you agree to our{" "}
-              <Link to="/terms" className="text-[#10b981] hover:underline transition-colors">
-                Terms & Conditions
-              </Link>
-            </p>
           </CardFooter>
         </form>
       </Card>

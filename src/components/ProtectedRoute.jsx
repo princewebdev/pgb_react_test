@@ -7,18 +7,21 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     const validateToken = async () => {
-      const token = localStorage.getItem("token"); // or sessionStorage
+      const token = localStorage.getItem("token"); 
       
+      // 1. If no token is found in storage, deny access immediately
       if (!token) {
         setIsAuthenticated(false);
         return;
       }
 
       try {
-        // Send a request to a lightweight WP endpoint (e.g., users/me)
         const apiUrl = import.meta.env.VITE_WP_API_URL || "http://localhost/progressivebyte_terms";
-        const response = await fetch(`${apiUrl}/wp-json/wp/v2/users/me`, {
-          method: "GET",
+        
+        // 2. Validate the token using the specific JWT validation endpoint
+        // This endpoint does not require specific user permissions, unlike 'users/me'
+        const response = await fetch(`${apiUrl}/wp-json/jwt-auth/v1/token/validate`, {
+          method: "POST", // Must be POST for validation
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -26,14 +29,18 @@ const ProtectedRoute = ({ children }) => {
         });
 
         if (response.ok) {
+          // Token is valid (200 OK)
           setIsAuthenticated(true);
         } else {
-          // Token exists but is expired or invalid (401/403)
+          // Token is invalid or expired (403/401)
+          console.warn("Token validation failed");
           localStorage.removeItem("token");
+          localStorage.removeItem("userName");
+          localStorage.removeItem("userRole");
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error("Session check failed", error);
+        console.error("Session check network error:", error);
         localStorage.removeItem("token");
         setIsAuthenticated(false);
       }
@@ -42,21 +49,21 @@ const ProtectedRoute = ({ children }) => {
     validateToken();
   }, []);
 
-  // Show loader while checking
+  // 3. Show loading spinner while the check is in progress
   if (isAuthenticated === null) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <Loader2 className="animate-spin h-8 w-8 text-[#10b981]" />
+      <div className="h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="animate-spin h-10 w-10 text-[#10b981]" />
       </div>
     );
   }
 
-  // Check finished, if false redirect to login
+  // 4. If authentication failed, redirect to Login
   if (isAuthenticated === false) {
     return <Navigate to="/login" replace />;
   }
 
-  // If authenticated, render the page
+  // 5. If authenticated, render the protected content
   return children;
 };
 
