@@ -32,7 +32,14 @@ const Documentation = () => {
         const catData = await catRes.json();
         const rawDocData = await docRes.json();
 
-        setCategories(catData);
+        // Sort categories by doc_category_order
+        const sortedCategories = catData.sort((a, b) => {
+          const orderA = parseInt(a.doc_category_order || 0);
+          const orderB = parseInt(b.doc_category_order || 0);
+          return orderA - orderB;
+        });
+
+        setCategories(sortedCategories);
 
         // --- H2 Processing Logic ---
         let processedDocs = [];
@@ -70,8 +77,8 @@ const Documentation = () => {
           setTimeout(() => {
              window.scrollTo({ top: 0, behavior: "smooth" });
           }, 100);
-        } else if (catData.length > 0 && !activeDocId) {
-          const firstCat = catData[0];
+        } else if (sortedCategories.length > 0 && !activeDocId) {
+          const firstCat = sortedCategories[0];
           setActiveCategoryId(firstCat.id);
           setExpandedCategories({ [firstCat.id]: true });
           const firstDoc = processedDocs.find((d) =>

@@ -95,7 +95,7 @@ const Login = () => {
           <div>
             <img className="m-auto" src="https://api.progressivebyte.com/wp-content/uploads/2025/06/download.png" alt="Progressive Byte Logo" />
           </div>
-          <CardTitle className="text-3xl font-black text-[#0a0a0a] tracking-tight">Welcome Back</CardTitle>
+          <CardTitle className="text-3xl font-black text-[#3b5a45] tracking-tight">Welcome Back</CardTitle>
           <CardDescription className="text-gray-500 font-medium">
             Login to your Progressive Byte account
           </CardDescription>
@@ -110,7 +110,7 @@ const Login = () => {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="username" className="font-bold text-[#0a0a0a]">Username</Label>
+              <Label htmlFor="username" className="font-bold text-[#3b5a45]">Username</Label>
               <Input
                 id="username"
                 placeholder="Enter your username"

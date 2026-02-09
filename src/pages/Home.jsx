@@ -8,7 +8,7 @@ const Home = () => {
     <div className="min-h-screen w-full bg-[#FDFDFD] flex flex-col items-center justify-center p-4 pt-28 pb-12 md:pt-40 md:pb-20 overflow-y-auto">
 
       <div className="text-center mb-8 md:mb-12 space-y-3 md:space-y-4">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#0a0a0a]">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#3b5a45]">
           Employee Portal
         </h1>
         <p className="text-gray-500 text-base md:text-lg">Select where you want to go</p>
@@ -25,7 +25,7 @@ const Home = () => {
             <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform">
               <Smile className="h-6 w-6 md:h-8 md:w-8" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-[#0a0a0a] mb-2 md:mb-3 group-hover:text-blue-600 transition-colors">
+            <h2 className="text-xl md:text-2xl font-black text-[#3b5a45] mb-2 md:mb-3 group-hover:text-blue-600 transition-colors">
               Leave Request
             </h2>
             <p className="text-sm md:text-base text-gray-500 mb-6 md:mb-8 leading-relaxed flex-grow">
@@ -44,7 +44,7 @@ const Home = () => {
             <div className="w-14 h-14 md:w-16 md:h-16 bg-green-50 text-[#10b981] rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform">
               <BookOpen className="h-6 w-6 md:h-8 md:w-8" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-[#0a0a0a] mb-2 md:mb-3 group-hover:text-[#10b981] transition-colors">
+            <h2 className="text-xl md:text-2xl font-black text-[#3b5a45] mb-2 md:mb-3 group-hover:text-[#10b981] transition-colors">
               Terms & Policies
             </h2>
             <p className="text-sm md:text-base text-gray-500 mb-6 md:mb-8 leading-relaxed flex-grow">
